@@ -18,7 +18,7 @@ import torchvision.transforms as transforms
 from collections import defaultdict
 from tqdm.autonotebook import tqdm
 from blazeit.aggregation.samplers import ControlCovariateSampler
-from tasti.eko.queries.queries import NightStreetAggregateQuery,\
+from tasti.seiden.queries.queries import NightStreetAggregateQuery,\
                                     NightStreetAveragePositionAggregateQuery, \
                                     NightStreetLimitQuery, \
                                     NightStreetSUPGPrecisionQuery,\
