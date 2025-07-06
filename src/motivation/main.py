@@ -153,11 +153,11 @@ def query_process2(index):
 ### Code for index construction ###
 ###################################
 
-def load_dataset(video_name):
+def load_dataset(video_path):
     ### load video to memory
     loader = Loader()
-    video_fp = os.path.join('/srv/data/jbang36/video_data/', video_name)
-    images = loader.load_video(video_fp)
+    # video_fp = os.path.join('/srv/data/jbang36/video_data/', video_name)
+    images = loader.load_video(video_path)
 
     return images
 
