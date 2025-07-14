@@ -413,7 +413,7 @@ class EKOPSConfig(IndexConfig):
         self.video_name = dataset_name
         self.category = category
 
-        self.cache_dir = f'/srv/data/jbang36/tasti_data/cache/{dataset_name}/seiden'
+        self.cache_dir = f'/Users/alenachao/Desktop/repos/seiden_sub_fork/seiden_submission/tasti_data/cache/{dataset_name}/seiden'
 
         self.device = 'gpu'
         self.num_threads = 16

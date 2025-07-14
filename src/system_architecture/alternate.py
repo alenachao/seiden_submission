@@ -38,8 +38,9 @@ from src.motivation.tasti_wrapper import InferenceDataset
 
 
 class EKO_alternate(Index):
-    def __init__(self, config, images, initial_anchor = 0.8):
-        self.images = images
+    def __init__(self, config, dataset, initial_anchor = 0.8):
+        # self.images = images 
+        self.dataset = dataset
         self.initial_anchor = initial_anchor
         super().__init__(config)
 
@@ -79,7 +80,7 @@ class EKO_alternate(Index):
         :param dataset_length:
         :return:
         """
-        dataset_length = len(self.images)
+        dataset_length = len(self.dataset)
 
         ### we need one at the start and end
         n_reps = self.config.nb_buckets
@@ -247,24 +248,24 @@ class EKO_alternate(Index):
         os.makedirs(self.config.cache_dir, exist_ok=True)
         return self.config.cache_dir
 
-    def override_target_dnn_cache(self, target_dnn_cache, train_or_test):
-        root = '/srv/data/jbang36/video_data'
-        ROOT_DATA = self.config.video_name
-        category = self.config.category
-        if category != 'car':
-            labels_fp = os.path.join(root, ROOT_DATA, f'tasti_labels_{category}.csv')
-        else:
-            labels_fp = os.path.join(root, ROOT_DATA, 'tasti_labels.csv')
-        labels = LabelDataset(
-            labels_fp=labels_fp,
-            length=len(target_dnn_cache),
-            category = self.config.category
-        )
-        return labels
+    # def override_target_dnn_cache(self, target_dnn_cache, train_or_test):
+    #     root = '/srv/data/jbang36/video_data'
+    #     ROOT_DATA = self.config.video_name
+    #     category = self.config.category
+    #     if category != 'car':
+    #         labels_fp = os.path.join(root, ROOT_DATA, f'tasti_labels_{category}.csv')
+    #     else:
+    #         labels_fp = os.path.join(root, ROOT_DATA, 'tasti_labels.csv')
+    #     labels = LabelDataset(
+    #         labels_fp=labels_fp,
+    #         length=len(target_dnn_cache),
+    #         category = self.config.category
+    #     )
+    #     return labels
 
     def get_target_dnn_dataset(self, train_or_test):
         ### just convert the loaded data into a dataset.
-        dataset = InferenceDataset(self.images)
+        dataset = InferenceDataset(self.dataset)
         return dataset
 
     def get_target_dnn(self):
@@ -280,7 +281,7 @@ class EKO_alternate(Index):
         return model
 
     def get_embedding_dnn_dataset(self, train_or_test):
-        dataset = InferenceDataset(self.images)
+        dataset = InferenceDataset(self.dataset)
         return dataset
 
     def get_pretrained_embedding_dnn(self):

@@ -10,6 +10,9 @@ from src.motivation.eko_wrapper import EKOConfig, EKO
 from src.motivation.resnet_wrapper import ResnetWrapper
 from src.motivation.maskrcnn_wrapper import MaskRCNNWrapper
 
+from benchmarks.stanford.tasti.tasti.examples.night_street_offline import VideoDataset
+from src.motivation.tasti_wrapper import InferenceDataset
+
 ### import the queries
 from benchmarks.stanford.tasti.tasti.seiden.queries.queries import NightStreetAggregateQuery, \
                                                                 NightStreetAveragePositionAggregateQuery, \
@@ -161,6 +164,16 @@ def load_dataset(video_path):
 
     return images
 
+### [wip] memory efficiency ver ###
+def load_video_dataset(video_path):
+    dataset = VideoDataset(video_fp=video_path)
+    return dataset
+
+def load_inference_dataset(video_path):
+    dataset = InferenceDataset(video_fp=video_path)
+    return dataset
+
+
 
 def execute_svm(images, image_size = None):
 
@@ -241,6 +254,13 @@ def execute_eko(images, video_name, nb_buckets = 7000, dist_param=0.1, temp_para
 def execute_ekoalt(images, video_name, category = 'car', nb_buckets = 7000):
     ekoconfig = EKOPSConfig(video_name, category = category, nb_buckets = nb_buckets)
     ekoalt = EKO_alternate(ekoconfig, images)
+    ekoalt.init()
+
+    return ekoalt
+
+def execute_ekoalt_memeff(dataset, video_name, category = 'car', nb_buckets = 7000):
+    ekoconfig = EKOPSConfig(video_name, category = category, nb_buckets = nb_buckets)
+    ekoalt = EKO_alternate(ekoconfig, dataset)
     ekoalt.init()
 
     return ekoalt
